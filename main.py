@@ -55,13 +55,19 @@ def double_check(df_new_merged, new = True):
     
     ## 광고 네이밍 룰 점검
     df_new_merged["광고명 확인"] = False
+    
     # 띄어쓰기 확인
     df_new_merged.loc[df_new_merged['광고 이름'].str.contains(" "), '광고명 확인'] = True
+
     # 특수문자 & 대문자 확인(2BR은 제외)
     df_new_merged.loc[~(df_new_merged['광고 이름'].str.replace("2BR", "").str.match(r'^[가-힣a-z0-9_]+$')), '광고명 확인'] = True
     
     ## 예산 점검
     df_new_merged["예산 확인"] = True
+
+    # 오늘 날짜가 아닌 것 제외
+    df_new_merged.loc[~(df_new_merged['캠페인'].str.contains(formatted_date)), '예산 확인'] = False
+    
     # 5만원 or 1만원
     df_new_merged.loc[(df_new_merged['예산'] == 50000) | (df_new_merged['예산'] == 10000), '예산 확인'] = False
     
