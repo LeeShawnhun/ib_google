@@ -1,0 +1,48 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페북 더블 체크</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+    <style>
+        .upload-container {
+            max-width: 600px;
+            width: 100%;
+            margin-left: 20%;
+            margin-right: 20%;
+        }
+        .file-input-wrapper {
+            width: 95%;
+        }
+    </style>
+    
+</head>
+<body>
+    <nav class="nav-menu">
+        <div class="nav-container">
+            <a href="/" class="nav-button {{ 'active' if request.url.path == '/' }}">구글 리젝 처리기</a>
+            <a href="/doublecheckGoogle" class="nav-button {{ 'active' if request.url.path == '/doublecheckGoogle' }}">구글 더블 체크</a>
+            <a href="/doublecheckFacebook" class="nav-button {{ 'active' if request.url.path == '/doublecheckFacebook' }}">페북 더블 체크</a>
+        </div>
+    </nav>
+
+    <h1 class="page-title">페북 더블 체크</h1>
+    <div class="container-wrapper">
+        <div class="upload-container">
+            <h2>파일을 업로드해주세요!(csv 파일)</h2>
+            <form action="/doublecheckFacebook/" method="post" enctype="multipart/form-data">
+                <div class="file-input-wrapper">
+                    <label for="files" class="form-label">파일 선택</label>
+                    <input type="file" class="form-control" id="file-input" name="files" multiple required>
+                    <div id="file-list"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">업로드</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>

@@ -10,7 +10,8 @@
     <nav class="nav-menu">
         <div class="nav-container">
             <a href="/" class="nav-button {{ 'active' if request.url.path == '/' }}">구글 리젝 처리기</a>
-            <a href="/doublecheck" class="nav-button {{ 'active' if request.url.path == '/doublecheck' }}">구글 더블 체크</a>
+            <a href="/doublecheckGoogle" class="nav-button {{ 'active' if request.url.path == '/doublecheckGoogle' }}">구글 더블 체크</a>
+            <a href="/doublecheckFacebook" class="nav-button {{ 'active' if request.url.path == '/doublecheckFacebook' }}">페북 더블 체크</a>
         </div>
     </nav>
 
@@ -20,24 +21,6 @@
             <form action="/uploadfiles/" enctype="multipart/form-data" method="post">
                 <div class="form-container">
                     <div class="form-content">
-                        <div class="team-selection">
-                            <h2>팀 선택</h2>
-                            <input type="radio" id="team1" name="selected_team" value="team1" required>
-                            <label for="team1">1팀</label>
-
-                            <input type="radio" id="team2A" name="selected_team" value="team2A">
-                            <label for="team2A">2팀A</label>
-
-                            <input type="radio" id="team2B" name="selected_team" value="team2B">
-                            <label for="team2B">2팀B</label>
-
-                            <input type="radio" id="team3" name="selected_team" value="team3">
-                            <label for="team3">3팀</label>
-
-                            <input type="radio" id="team4" name="selected_team" value="team4">
-                            <label for="team4">4팀</label>
-                        </div>
-
                         <div class="file-upload">
                             <input name="files" type="file" accept=".csv" multiple id="file-input">
                             <div id="file-list"></div>
@@ -47,7 +30,6 @@
                 </div>
             </form>
         </div>
-        <div id="brand-list" class="brand-list"></div>
     </div>
 
     <script src="{{ url_for('static', path='/js/script.js') }}"></script>
