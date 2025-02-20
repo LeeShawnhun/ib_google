@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, File, UploadFile, HTTPException
+from fastapi import FastAPI, Form, Request, File, UploadFile, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, HTMLResponse
@@ -8,6 +8,7 @@ import pandas as pd
 from datetime import date
 import re
 import traceback
+from app.abclal import *
 
 # 터미널에 uvicorn main:app --reload 로 실행
 app = FastAPI()
@@ -331,7 +332,7 @@ async def create_upload_files(request: Request, files: list[UploadFile] = File(.
 
             file_paths.append(file_path)
 
-        # 파일 경로를 브랜드 순서에 따라 정렬
+        # 파일 경로를 브랜드 순서에 따라 정렬   
         sorted_file_paths = []
         for brand in sorted_order:
             for file_path in file_paths:
@@ -365,13 +366,70 @@ async def download_file(filename: str):
         return FileResponse(filename, media_type='text/plain', filename=filename)
     raise HTTPException(status_code=404, detail="File not found")
 
-@app.get("/doublecheckGoogle")
-async def doublecheck_page(request: Request):
+# -------------------------------------------------------------------------
+# 페북 시드 생성
+@app.post("/seed")
+async def seed_request(
+    request: Request,
+    access_token: str = Form(...),
+    account_id: int = Form(...),
+    campaign_id: int = Form(...),
+    seed_name: str = Form(...),
+    country_code: str = Form(default="KR"),
+    ratio: float = Form(default=0.1)
+):
+    try:
+        seed_data = SeedRequest(
+            access_token=access_token,
+            account_id=account_id,
+            campaign_id=campaign_id,
+            seed_name=seed_name,
+            country_code=country_code,
+            ratio=ratio
+        )
+
+        status = create_lookalike_audience(
+            access_token=seed_data.access_token,
+            seed_name=seed_data.seed_name,
+            ad_account_id=seed_data.account_id,
+            campaign_id=seed_data.campaign_id,
+            ratio=seed_data.ratio,
+            country=seed_data.country_code
+        )
+
+        return templates.TemplateResponse(
+            "seedResult.html",
+            {
+                "request": request,
+                "status": status,
+                "success": True if "완료" in status else False, 
+                "seed_data": seed_data
+            }
+        )
+
+    except Exception as e:
+        error_message = str(e)
+        return templates.TemplateResponse(
+            "seedResult.html",
+            {
+                "request": request,
+                "status": f"오류 발생: {error_message}",
+                "success": False,
+                "seed_data": seed_data
+            }
+        )
+
+@app.get("/doublecheckGoogle", response_class=HTMLResponse)
+async def doublecheck_page_google(request: Request):
     return templates.TemplateResponse("doublecheckGoogle.html", {"request": request})
 
-@app.get("/doublecheckFacebook")
-async def doublecheck_page(request: Request):
+@app.get("/doublecheckFacebook", response_class=HTMLResponse)
+async def doublecheck_page_facebook(request: Request):
     return templates.TemplateResponse("doublecheckFacebook.html", {"request": request})
+
+@app.get("/facebookSeedMaker", response_class=HTMLResponse)
+async def seedRequest_page(request: Request):
+    return templates.TemplateResponse("facebookSeedMaker.html", {"request": request})
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):

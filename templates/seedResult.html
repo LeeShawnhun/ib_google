@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>페북 시드 생성기</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result-card {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>유사 타겟 생성 결과</h1>
+    
+    <div class="result-card {% if success %}success{% else %}error{% endif %}">
+        <h2>{% if success %}성공{% else %}실패{% endif %}</h2>
+        <p>{{ status }}</p>
+    </div>
+
+    <div class="details">
+        <h3>요청 상세 정보:</h3>
+        <ul>
+            <li>시드 이름: {{ seed_data.seed_name }}</li>
+            <li>계정 ID: {{ seed_data.account_id }}</li>
+            <li>캠페인 ID: {{ seed_data.campaign_id }}</li>
+            <li>국가 코드: {{ seed_data.country_code }}</li>
+            <li>유사 타겟 비율: {{ seed_data.ratio }}</li>
+        </ul>
+    </div>
+    <a href="/">처음으로 돌아가기</a>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>

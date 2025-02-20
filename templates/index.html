@@ -12,6 +12,7 @@
             <a href="/" class="nav-button {{ 'active' if request.url.path == '/' }}">구글 리젝 처리기</a>
             <a href="/doublecheckGoogle" class="nav-button {{ 'active' if request.url.path == '/doublecheckGoogle' }}">구글 더블 체크</a>
             <a href="/doublecheckFacebook" class="nav-button {{ 'active' if request.url.path == '/doublecheckFacebook' }}">페북 더블 체크</a>
+            <a href="/facebookSeedMaker" class="nav-button {{ 'active' if request.url.path == '/facebookSeedMaker' }}">페북 시드 생성기</a>
         </div>
     </nav>
 
@@ -26,7 +27,7 @@
                             <div id="file-list"></div>
                         </div>
                     </div>
-                    <input type="submit" value="처리하기">
+                    <button type="submit" class="btn btn-primary">처리하기</button>
                 </div>
             </form>
         </div>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구글 리젝 처리기</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <nav class="nav-menu">
+        <div class="nav-container">
+            <a href="/" class="nav-button {{ 'active' if request.url.path == '/' }}">구글 리젝 처리기</a>
+            <a href="/doublecheckGoogle" class="nav-button {{ 'active' if request.url.path == '/doublecheckGoogle' }}">구글 더블 체크</a>
+            <a href="/doublecheckFacebook" class="nav-button {{ 'active' if request.url.path == '/doublecheckFacebook' }}">페북 더블 체크</a>
+            <a href="/facebookSeedMaker" class="nav-button {{ 'active' if request.url.path == '/facebookSeedMaker' }}">페북 시드 생성기</a>
+        </div>
+    </nav>
+
+    <h1 class="page-title">페북 시드 생성기</h1>
+    <div class="content-wrapper">
+        <div class="main-content">
+            <form action="/seed" method="post">
+                <div class="form-group">
+                    <label for="access_token">엑세스 토큰:</label>
+                    <input type="text" name="access_token" id="access_token" 
+                           class="form-control" required 
+                           placeholder="여기에 토큰값 입력하기">
+                </div>
+                
+                <div class="form-group">
+                    <label for="account_id">계정 ID:</label>
+                    <input type="number" name="account_id" id="account_id" 
+                           class="form-control" required 
+                           placeholder="여기에 계정 ID 입력하기">
+                </div>
+                
+                <div class="form-group">
+                    <label for="campaign_id">캠페인 ID:</label>
+                    <input type="number" name="campaign_id" id="campaign_id" 
+                           class="form-control" required 
+                           placeholder="여기에 캠페인 ID 입력하기">
+                </div>
+                
+                <div class="form-group">
+                    <label for="seed_name">시드 이름:</label>
+                    <input type="text" name="seed_name" id="seed_name" 
+                           class="form-control" required 
+                           placeholder="여기에 시드 이름 입력하기">
+                </div>
+                
+                <div class="form-group">
+                    <label for="country_code">국가 코드(2자리):</label>
+                    <input type="text" name="country_code" id="country_code" 
+                           class="form-control" required 
+                           pattern="[A-Z]{2}" maxlength="2" 
+                           value="KR" placeholder="기본값: KR">
+                </div>
+                
+                <div class="form-group">
+                    <label for="ratio">유사타겟 비율(0.01 ~ 0.1):</label>
+                    <input type="number" name="ratio" id="ratio" 
+                           class="form-control" required 
+                           min="0.01" max="0.1" step="0.01" 
+                           value="0.1" placeholder="기본값: 0.1">
+                </div>
+            
+                <button type="submit" class="btn btn-primary">생성하기</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>
