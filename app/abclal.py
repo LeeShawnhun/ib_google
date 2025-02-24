@@ -1,6 +1,4 @@
 from dataclasses import Field
-import json
-import re
 from pydantic import BaseModel, Field
 from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.customaudience import CustomAudience
